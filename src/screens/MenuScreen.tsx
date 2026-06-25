@@ -53,6 +53,13 @@ export function MenuScreen({ busy, error, onCreate, onJoin }: Props) {
         </button>
       </div>
 
+      {/* 버튼이 왜 비활성인지 안내 */}
+      {name.trim().length === 0 ? (
+        <p className="text-amber-400/90 text-sm -mt-3">👆 먼저 닉네임을 입력해주세요</p>
+      ) : code.trim().length > 0 && code.trim().length < 4 ? (
+        <p className="text-amber-400/90 text-sm -mt-3">방 코드는 4자리예요</p>
+      ) : null}
+
       {error && <p className="text-rose-400 text-sm">{error}</p>}
 
       <details className="w-full text-sm text-slate-400">
