@@ -6,9 +6,10 @@ interface Props {
   error: string | null
   onCreate: (name: string) => void
   onJoin: (name: string, code: string) => void
+  onSolo: (name: string) => void
 }
 
-export function MenuScreen({ busy, error, onCreate, onJoin }: Props) {
+export function MenuScreen({ busy, error, onCreate, onJoin, onSolo }: Props) {
   const [name, setName] = useState('')
   const [code, setCode] = useState('')
   const canStart = name.trim().length > 0 && !busy
@@ -27,6 +28,20 @@ export function MenuScreen({ busy, error, onCreate, onJoin }: Props) {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
+
+      <button
+        className="w-full rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white font-bold py-3 text-lg transition"
+        disabled={!canStart}
+        onClick={() => onSolo(name.trim())}
+      >
+        🤖 AI와 혼자하기
+      </button>
+
+      <div className="w-full flex items-center gap-3 text-slate-500 text-xs">
+        <div className="flex-1 h-px bg-slate-700" />
+        친구와 대전
+        <div className="flex-1 h-px bg-slate-700" />
+      </div>
 
       <button
         className="w-full rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-40 text-slate-900 font-bold py-3 text-lg transition"

@@ -15,6 +15,7 @@ import { MenuScreen } from './screens/MenuScreen'
 import { LobbyScreen } from './screens/LobbyScreen'
 import { GameScreen } from './screens/GameScreen'
 import { GameOverScreen } from './screens/GameOverScreen'
+import { SoloGame } from './screens/SoloGame'
 
 interface Session {
   roomId: string
@@ -36,6 +37,7 @@ function loadSession(): Session | null {
 export default function App() {
   const [session, setSession] = useState<Session | null>(loadSession)
   const [state, setState] = useState<GameState | null>(null)
+  const [soloName, setSoloName] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -123,8 +125,19 @@ export default function App() {
   }, [session])
 
   // ---- 화면 분기 ----
+  if (soloName !== null) {
+    return <SoloGame playerName={soloName} onExit={() => setSoloName(null)} />
+  }
   if (!session) {
-    return <MenuScreen busy={busy} error={error} onCreate={handleCreate} onJoin={handleJoin} />
+    return (
+      <MenuScreen
+        busy={busy}
+        error={error}
+        onCreate={handleCreate}
+        onJoin={handleJoin}
+        onSolo={(name) => setSoloName(name)}
+      />
+    )
   }
   if (!state) {
     return <Centered>연결 중...</Centered>
